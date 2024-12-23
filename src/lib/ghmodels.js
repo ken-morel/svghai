@@ -3,12 +3,26 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { createSseStream } from "@azure/core-sse";
 
 
-const TOKEN = process.env["GITHUB_TOKEN"];
 const ENDPOINT = "https://models.inference.ai.azure.com";
 
+const MODELS = [
+  {
+    img:  "/models-icons/meta.svg",
+    name: "Meta-Llama-3.1-405B-Instruct"
+  },
+  {
+    img: "/models-icons/openai.svg",
+    name: "ChatGPT 4o",
+  },
+  {
+    img: "/models-icons/phi.svg",
+    name: "phi-3.5-mini instruct (128k)",
+  }
+];
+
 class Model {
-  static getAll() {
-    return ["Phi-3-mini-4k-instruct"].map(m => new Model(m));
+  static all() {
+    return MODELS.map(({name}) => new Model(name));
   }
   static getClient() {
     if(!Model.client) {
@@ -22,6 +36,10 @@ class Model {
   }
   constructor(name) {
     this.name = name;
+  }
+  image_path() {
+    for(let img of MODELS) if(img.name == this.name) return img.img;
+    return null;
   }
   async stream_query(chat) {
     const response = await Model.getClient().path("/chat/completions").post({
@@ -55,30 +73,38 @@ class ChatMessage {
     }
   }
 }
-CHATMESSAGEROLES = ["user", "system", "assistant"];
 
+const CHATMESSAGEROLES = ["user", "system", "assistant"];
 
 class Chat {
-  constructor(model, messages=[]) {
+  constructor(model, messages) {
     this.messages = new Array(messages);
     this.model = model;
   }
-  async streamComplete* () {
-    const sseStream = await this.model.stream_query(this);
-    const message = new ChatMessage("assistant", "");
-    this.messages.append(message);
-    for await (const event of sseStream) {
-      if (event.data === "[DONE]") {
-        break;
-      }
-      for (const choice of (JSON.parse(event.data)).choices) {
-        const text = choice.delta?.content ?? ``;
-        message.content += text;
-        yield text;
-      }
-    }
-  }
-  toPlain() {
-    return self.messages.map(m => {'role': m.role, 'content': m.content})
+  streamComplete() {
+    return new Promise(function(res, rej) {
+      this.model.stream_query(this)
+        .then(function(sseStream) {
+          const message = new ChatMessage("assistant", "");
+          this.messages.append(message);
+          res(function*() {
+            for(const event of sseStream) {
+              if (event.data === "[DONE]") {
+                break;
+              }
+              for (const choice of JSON.parse(event.data).choices) {
+                const text = choice.delta?.content ?? ``;
+                message.content += text;
+                yield text;
+              }
+            }
+          });
+        })
+        .catch(rej);
+    })
   }
 }
+
+
+
+export {Model, ChatMessage};

@@ -1,0 +1,26 @@
+@use 'colors'
+
+footer
+    margin: auto
+    text-align: center
+body
+    background-color: var(--bg-0)
+    color: var(--bg-r0)
+.flash-message
+    width: 100%
+    padding: 20px 50px
+    &.error
+        border:
+            top:    1px var(--alert) solid
+            bottom: 1px var(--alert) solid
+        background-color: rgba(var(--alert), 0.2)
+    &.info
+        border:
+            top:    1px var(--info) solid
+            bottom: 1px var(--info) solid
+        background-color: rgba(var(--info), 0.2)
+    &.success
+        border:
+            top:    1px var(--success) solid
+            bottom: 1px var(--success) solid
+        background-color: rgba(var(--success), 0.2)

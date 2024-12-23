@@ -1,0 +1,25 @@
+@use 'sass:color'
+
+$bg: #151b23 // base
+$rbg: color.invert($bg)
+
+:root
+    @for $i from 0 through 10
+        $mul: 2 * $i
+        $rmul: -4 * $mul
+        $col: color.adjust($bg, $lightness: calc($mul * 1%))
+        $rcol: color.adjust($rbg, $lightness: calc($rmul * 1%))
+        --bg-#{$i}: #{$col}
+        .bg-#{$i}
+            background-color: #{$col}
+        .bd-#{$i}
+            border-color: #{$col}
+
+        --bg-r#{$i}: #{$rcol}
+        .bg-r#{$i}
+            background-color: #{$rcol}
+        .bd-r#{$i}
+            border-color: #{$rcol}
+    --alert: #882222
+    --info: #224499
+    --success: #229944

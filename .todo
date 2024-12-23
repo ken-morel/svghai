@@ -1,3 +1,12 @@
 -4	Install markdown viewer in env.
 -	Create login page
 -	use db to store login data.
+-	Find a way to store enc gh tokens
+{
+    "users": [
+        {
+            "username": "ken",
+            "gh_token": "5c1ad7faecdc49b93b43427e57ffbbd3:2869a786ea5fc43d6faa9ea8ad64fc6c47d7482b0910457ad2de7a093c7605d7b292ec8ab9080fe576726d050ccd5348",
+        }
+    ],
+}

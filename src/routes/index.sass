@@ -1,33 +1,61 @@
 body
-	padding: 0
-	height: 100
+	padding: 0!important
+	height: 100%!important
+	width: 100%!important
+	margin: 0!important
+	overflow-x: hidden
 
 main
-	margin: 0 0 0 0
-	width: 100%
-	padding: 50px
+	margin: 0 0 0 0!important
+	width: 100%!important
+	padding: 1px!important
 	color: #fff
+	text-align: center
+	font-family: sans-serif
 	background:
 		image: url('/favicon.png'), linear-gradient(10deg, #151b23, #0D1117)
 		repeat: no-repeat
-		size: 100%
+		size: 99%!important
 		blend-mode: overlay
 		position: center
 	div.hero
 		h1
 			font-family: 'DM Sans'
-			font-size: 40px
 			text-align: center
 			margin: 50px
-		p
-			font:
-				family: 'DM Sans'
-				size: large
-			text-align: center
+		p.login-buttons
+			margin: auto
+			margin:
+				top: 100px
+				bottom: 100px
+			width: fit-content
+			padding: 24px 0px
+			border-radius: 20px
+			border: 1px #333333 solid
 			a
-				background-color: cyan
-				padding: 10px 20px
-				border-radius: 20px
-				margin: 70px 40px
+				transition: 0.3s
+				font:
+					size: 20px
+					family: 'DM Sans'
+				margin: 20px
+				background-color: #4444aa
 				text-decoration: none
-				font-size: x-large
+				color: white
+				padding: 10px 70px
+				border-radius: 10px
+				border: 1px #4444aa solid
+				&:hover
+					background-color: #4444aa88
+					backdrop-filter: blur(1px)
+	div.posters-container
+		border:
+			top: 1px solid gray
+			bottom: 1px solid gray
+		margin: auto
+		display: flex
+		justify-content: space-evenly
+		div.poster
+			height: 100%
+			margin: 10px
+			padding: 10px
+			border-radius: 10px
